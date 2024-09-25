@@ -14,10 +14,6 @@ class QR
     DynamicJsonDocument desencriptarQr( String );
 
   public:
-    QR() : _Serial2(Serial2)
-    {
-      _Serial2.begin(9600, SERIAL_8N1, RX2_PIN, TX2_PIN);
-    }
     void prenderQr( void );
     void apagarQr( void );
     DynamicJsonDocument leerQr( void );
