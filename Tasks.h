@@ -3,7 +3,7 @@
 
 
 //TODO CHECAR COMO ACOMODAR EL LLAMADO DE LIBRERIAS
-#include "Votaciones.h"
+#include "Libraries.h"
 
 /*****************************************************************************************
 *      DESCRIPCIÓN DE LA LIBRERÍA: El objetivo de esta librería es generar tiempos de    *
@@ -25,6 +25,7 @@ class millis_tasks {
              tiempo_anterior_lcd = 0,
              tiempo_anterior_lcd2 = 0,
              tiempo_anterior_MsgExito = 0,
+             tiempo_anterior_errorQR = 0,
              tiempo_actual = 0,     // Contador de tiempo que tendrá múltiplos de TIEMPO.
              contador_espera = 3;
   public:
@@ -33,6 +34,7 @@ class millis_tasks {
     // bool tarea_LCD ( void );
     bool tarea_LCD2 ( void );
     bool tarea_mensajeConExito ( void );
+    bool tarea_mensajeError( void );
     void actualizar_tareas ( void );  // Función que actualiza el conteo obtenido de la función "millis()".
  
 };
@@ -70,14 +72,14 @@ class millis_tasks {
 /*~~~~~~~~~~~~~~~~~~~~~~~~ tareaRTC - Función que se ejecuta cada TIEMPO3 ( 3 SEGUNDOS ) ~~~~~~~~~~~~~~~~~~~~~~~~ */
 // void millis_tasks :: tarea_RTC ( void ) {
 
-//   if ( ( tiempo_actual - tiempo_anterior_rtc ) >= TIEMPO_RTC ){
+  // if ( ( tiempo_actual - tiempo_anterior_rtc ) >= TIEMPO_RTC ){
 
-//     //myRTC.cleanPointer_time(pointerTiempo);
-//     myRTC.get_time();
-//     myDateTime = myRTC.show_time('-');
-//     tiempo_anterior_rtc = tiempo_actual;
+  //   myRTC.cleanPointer_time(pointerTiempo);
+  //   myRTC.get_time();
+  //   myDateTime = myRTC.show_time('-');
+  //   tiempo_anterior_rtc = tiempo_actual;
 
-//   }
+  // }
   
 // }
 
@@ -130,6 +132,24 @@ bool millis_tasks :: tarea_LCD2 ( void ) {
 bool millis_tasks :: tarea_mensajeConExito ( void ) {
   actualizar_tareas();
   if( contador_espera >= 0 && ( tiempo_actual - tiempo_anterior_MsgExito) >= TIEMPO3 ){
+    
+    tiempo_anterior_MsgExito = tiempo_actual;
+    contador_espera--;
+
+  }else if( !contador_espera ){
+
+    contador_espera = 3;
+    tiempo_actual = 0;
+    return true;
+
+  }
+  return false;
+
+}
+
+bool millis_tasks :: tarea_mensajeError ( void ) {
+  actualizar_tareas();
+  if( contador_espera >= 0 && ( tiempo_actual - tiempo_anterior_errorQR) >= TIEMPO1 ){
     
     tiempo_anterior_MsgExito = tiempo_actual;
     contador_espera--;
