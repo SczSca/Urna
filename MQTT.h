@@ -158,5 +158,5 @@ void MQTT :: callback(char* topic, byte* message, unsigned int length) {
 
 
   }
-  MQTT myMQTT;
+  
 #endif
