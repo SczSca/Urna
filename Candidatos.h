@@ -13,12 +13,12 @@ class CandidatoController {
     // byte* iconos[3] = { MonegraIcon, BolilloIcon, PRIncessIcon };
     String candidatos[3] = { "Monegra", "Bolillo", "PRIncess" };
     int8_t posElegida = -1;
-    String votante;
+    const char* votante;
 
   public:
     // byte** getIconos ( void );
     int8_t getPos( void );
-    void setVotante( String );
+    void setVotante( const char* );
     String elegirCandidato ( bool );
     void aceptarEleccion ( void );
 
@@ -30,7 +30,7 @@ class CandidatoController {
 int8_t CandidatoController :: getPos( void ){
   return posElegida;
 }
-void CandidatoController :: setVotante( String uid ){
+void CandidatoController :: setVotante( const char* uid ){
   votante = uid;
 }
 /**
