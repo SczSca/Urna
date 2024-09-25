@@ -54,21 +54,24 @@ const char* QR :: leerQr()
 const char* QR :: desencriptarQr(String encryptedQr)
 {
   // Declara un objeto DynamicJsonDocument
-  DynamicJsonDocument doc(1024);
+  DynamicJsonDocument decryptJson(1024);
+  // Declara una variable para almacenar el error de deserialización
+  DeserializationError error = deserializeJson(decryptJson, encryptedQr);
 
-  // Deserializa el JSON
-  DeserializationError error = deserializeJson(doc, encryptedQr);
-  if (error) 
-  {
-    Serial.print(F("Error al deserializar: "));
-    Serial.println(error.f_str());
-    // Crear un documento vacío para devolver en caso de error
-    DynamicJsonDocument errorDoc(1024);
-    errorDoc["error"] = "Deserialización fallida";
-    errorDoc["message"] = error.f_str();
-    return errorDoc;
+  
+  // Verifica si ocurrió un error durante la deserialización
+  if (error || !decryptJson.containsKey("id_votante")) {
+      Serial.println("Error al deserializar JSON:");
+      Serial.println(error.c_str());
+      return "-1"; // Retorna nullptr si no es un JSON válido
   }
-  return doc;
+
+  const char* idElector = decryptJson["id_votante"];
+  Serial.print("Este es el id: ");
+  Serial.println(idElector);
+  
+  return idElector;
+
 }
 
 #endif
