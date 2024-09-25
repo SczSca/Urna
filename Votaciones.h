@@ -2,24 +2,16 @@
 #define VOTACIONES_H
 
 
-#include "RFID.h"
+// #include "RFID.h"
 
 #include "Sonico.h"
 
-#include "MQTT.h"
-
-#include "JSON.h"
 
 #include "Actuadores.h"
   Actuador myActu;
-
-#include "MyRTC.h"
   
 #include "Tasks.h"
   millis_tasks tasksAdmin;
-
-#include "MicroSD.h"
-  MyMicroSD mySD;
 
 #include "Candidatos.h"
   CandidatoController candidatoController;
