@@ -17,11 +17,14 @@ class MyMicroSD  {
   // MÉTODOS
   public:
     MyMicroSD() : electores(1024) {}
-   void init ( void );
-   void SaveFile ( const DynamicJsonDocument& );
-   void ReadFile ( void );
-   void SetFileName ( String );
-   bool CheckElector ( const DynamicJsonDocument& );
+    void init ( void );
+    void SaveFile ( const DynamicJsonDocument& );
+    void ReadFile ( void );
+    void SetFileName ( String );
+
+    int8_t GetJson();   
+    int8_t CheckElector ( const char* );
+    void CreateDummy ( void );
   //  void guardarEnSD( const DynamicJsonDocument& );
 };
 
