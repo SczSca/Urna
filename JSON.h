@@ -48,5 +48,4 @@ DynamicJsonDocument json_factory :: make_json( void ){
   return JSON;
 }
 
-
 #endif
