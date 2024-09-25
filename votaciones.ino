@@ -2,8 +2,8 @@
 #include "Libraries.h"
 
 //pines del RFID aparecen en RFID.h
-#define trigPin 16
-#define echoPin 35
+//#define trigPin 16
+// #define echoPin 35
 #define relayPin 13 //TODO asignar un pin adecuado
 #define inicioBtnPin 25
 #define izquierdaBtnPin 26
@@ -20,10 +20,11 @@
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  myMQTT.setup_WiFi ( );
-  myMQTT.set_MQTT_server ( );
-  myMQTT.set_MQTT_callback (  );
-  myRTC.RTC_init();
+  Serial2.begin(9600, SERIAL_8N1, RX2_PIN, TX2_PIN);
+  // myMQTT.setup_WiFi ( );
+  // myMQTT.set_MQTT_server ( );
+  // myMQTT.set_MQTT_callback (  );
+  // myRTC.RTC_init();
   myActu.lcd_init();
   //TODO encontrar la falla y solucionarlo
   //Falló la inicialización
@@ -33,10 +34,10 @@ void setup() {
   //rfid.PCD_Init(); // init MFRC522
 
   /** Setup del sonico*/
-  pinMode( trigPin, OUTPUT);
-  digitalWrite ( trigPin, LOW);
-  pinMode( echoPin, INPUT );
-  pinMode( relayPin, OUTPUT);
+  // pinMode( trigPin, OUTPUT);
+  // digitalWrite ( trigPin, LOW);
+  // pinMode( echoPin, INPUT );
+  // pinMode( relayPin, OUTPUT);
 
   pinMode( inicioBtnPin, INPUT );
   pinMode( izquierdaBtnPin, INPUT );
@@ -48,9 +49,6 @@ void setup() {
   // int lengthIconos = sizeof(iconosCandidatos) / sizeof(iconosCandidatos[0]);
 
 
-  // for(int i = 0; i < lengthIconos; i++){
-  //   myActu.createCharacter( i, iconosCandidatos[i]);
-  // }
   myActu.createCharacterTodos();
   // randomSeed(analogRead(0));
   // delete[] iconosCandidatos;
@@ -73,7 +71,6 @@ void loop() {
       //mySonico.tarea_sonico();
   //}
 
-  candidatoController.setVotante( "12345" );
 
   //myRC522.eraseUidString();
   while( inicioFlag ){// ciclo que espera que se eliga un candidato
@@ -108,7 +105,6 @@ void loop() {
         myActu.print(candidatoActual, 0);
         myActu.setCursor(0,1);
         myActu.printChar( posicionChar );
-        //TODO terminar de implementar el icono de los partidos
         delay(300);
       }else if( acceptBtn ){
         myActu.lcd_clear();
