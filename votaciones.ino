@@ -26,10 +26,12 @@ void setup() {
   // myMQTT.set_MQTT_callback (  );
   // myRTC.RTC_init();
   myActu.lcd_init();
-  //TODO encontrar la falla y solucionarlo
-  //Falló la inicialización
-  //mySD.init();
+  mySD.init();
+  while(mySD.GetJson() != 0){
 
+  }
+  // mySD.CreateDummy();
+  mySD.ReadFile();
   //SPI.begin(); // init SPI bus
   //rfid.PCD_Init(); // init MFRC522
 
@@ -64,7 +66,28 @@ void loop() {
   myActu.print( "tarjeta", 1 );
 
   QrController.prenderQr();
-  bool isElector = mySD.CheckElector(QrController.leerQr());
+  while(1){
+    const char* idElector = QrController.leerQr();
+    if(idElector == "-1" || idElector == "0"){
+      //pintar en la pantalla que no se leyo correctamente
+      myActu.lcd_clear();
+      myActu.print("Acerque su", 0);
+      myActu.print( "tarjeta", 1 );
+      continue;
+    }
+
+    Serial.println(idElector);
+    //checar como aplicar esto luego de las pruebas
+    uint8_t hasVoted = mySD.CheckElector(idElector);
+    if(!hasVoted)
+    {
+      candidatoController.setVotante( idElector );
+      break;    
+    }
+
+  }
+
+
 
   //while(!myRC522.ReadRFID_NFC()){
     //ciclo que espera a que lea y obtenga la id de un rfid
