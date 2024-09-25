@@ -145,8 +145,40 @@ void MyMicroSD :: ReadFile ( void ) {
   }
 
 }
-bool MyMicroSD :: CheckElector ( const DynamicJsonDocument& electorJson )
+
+int8_t MyMicroSD :: GetJson ( void )
 {
+  MicroSD_File = SD.open ( filename, FILE_READ );
+
+  String jsonString = "";
+
+  if ( MicroSD_File ) {
+
+    while (MicroSD_File.available()) {
+        jsonString += char(MicroSD_File.read());
+    }
+
+    MicroSD_File.close();
+
+    electores.clear();
+
+    DeserializationError error = deserializeJson(electores, jsonString);
+    if (error) {
+      // Si hay un error, establece un JSON con "error": true
+      electores["error"] = true;
+      Serial.println(F("Error al deserializar, clave 'error' agregada."));
+      return -1;
+    }
+
+    return 0;
+  }
+
+  return 1; 
+}
+
+int8_t MyMicroSD :: CheckElector ( const char* idElector )
+{
+  int8_t hasVoted = 0;
   //TODO: agregar la busqueda
 }
 
