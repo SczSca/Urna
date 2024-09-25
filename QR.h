@@ -31,23 +31,22 @@ void QR :: apagarQr()
 
 const char* QR :: leerQr()
 {
-  bool isCorrectQr = false;
-  while( !isCorrectQr )
+  while( !Serial2.available() )
   {
-    if(_Serial2.available()) 
+    if(Serial2.available() > 0)
     {
-      String QrString = _Serial2.readString();
-      DynamicJsonDocument decryptQrJson = desencriptarQr(QrString); //Retorna el json Qr desencriptado
-      //si el campo "validacion" tiene valor true, hacer algo
-      if(decryptQrJson.containsKey("error"))
-      {
-        continue;
-      }
-      else if(decryptQrJson.containsKey("validacion") && decryptQrJson["validacion"] == true) //condicion para validar que sea un json con datos de INE
-      {
-        return decryptQrJson;
-      }
+      String QrString = Serial2.readString();
       Serial.println("Data received from UART2: " + QrString);
+
+      const char* idElector = desencriptarQr(QrString); //Retorna el json Qr desencriptado
+      //TODO: Mandarlo a Tasks.h para combinarlo con respuestas al lcd
+      // if(idElector == "-1")
+      // {
+      //   continue;
+      // }
+
+      return idElector;
+
     }
   }
 }
