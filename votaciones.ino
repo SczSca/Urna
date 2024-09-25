@@ -1,4 +1,5 @@
 #include "Votaciones.h"
+#include "Libraries.h"
 
 //pines del RFID aparecen en RFID.h
 #define trigPin 16
