@@ -11,10 +11,12 @@ class MyMicroSD  {
   // VARIABLES
   private:
     uint8_t contador = 0;      /* */
-    String filename = "/TestMicroSD.json";   /* Nombre de archivo que incluye "/" que indica la ubicación en raíz */
+    String filename = "/electores.json";   /* Nombre de archivo que incluye "/" que indica la ubicación en raíz */
     // bool idExiste ( uint16_t , JsonArray& );
+    DynamicJsonDocument electores;
   // MÉTODOS
   public:
+    MyMicroSD() : electores(1024) {}
    void init ( void );
    void SaveFile ( const DynamicJsonDocument& );
    void ReadFile ( void );
