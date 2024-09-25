@@ -179,7 +179,49 @@ int8_t MyMicroSD :: GetJson ( void )
 int8_t MyMicroSD :: CheckElector ( const char* idElector )
 {
   int8_t hasVoted = 0;
-  //TODO: agregar la busqueda
+  //{"1":{"name":"Juan Pérez","has_voted":false},"2":{"name":"Ana Gómez","has_voted":true},"3":{"name":"Carlos Rodríguez","has_voted":true},"4":{"name":"María López","has_voted":false},"5":{"name":"Pedro Sánchez","has_voted":true}}
+
+  if(electores.containsKey(idElector))
+  {//idElector = "2" | For some reason, this throws false. I dont know why!
+    hasVoted = electores[idElector]["has_voted"];
+  }
+
+  return hasVoted;
+
+}
+
+
+
+void MyMicroSD :: CreateDummy ( void )
+{
+  // Crea un DynamicJsonDocument con suficiente espacio para almacenar los datos
+  DynamicJsonDocument doc(1024);
+
+  // Añade los electores y sus datos
+  JsonObject elector1 = doc.createNestedObject("1");
+  elector1["name"] = "Juan Pérez";
+  elector1["has_voted"] = false;
+
+  JsonObject elector2 = doc.createNestedObject("2");
+  elector2["name"] = "Ana Gómez";
+  elector2["has_voted"] = true;
+
+  JsonObject elector3 = doc.createNestedObject("3");
+  elector3["name"] = "Carlos Rodríguez";
+  elector3["has_voted"] = true;
+
+  JsonObject elector4 = doc.createNestedObject("4");
+  elector4["name"] = "María López";
+  elector4["has_voted"] = false;
+
+  JsonObject elector5 = doc.createNestedObject("5");
+  elector5["name"] = "Pedro Sánchez";
+  elector5["has_voted"] = true;
+
+  SetFileName("electores");
+
+  SaveFile(doc);
+
 }
 
 #endif
