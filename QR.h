@@ -10,14 +10,12 @@
 class QR
 {
   private:
-    HardwareSerial& _Serial2;
-    DynamicJsonDocument desencriptarQr( String );
+    const char* desencriptarQr( String );
 
   public:
     void prenderQr( void );
     void apagarQr( void );
-    DynamicJsonDocument leerQr( void );
-    DynamicJsonDocument desencriptarQr( DynamicJsonDocument );
+    const char* leerQr( void );
     
 };
 
@@ -31,7 +29,7 @@ void QR :: apagarQr()
   //TODO: Agregar comando para indicar al sensor que se apague
 }
 
-DynamicJsonDocument QR :: leerQr()
+const char* QR :: leerQr()
 {
   bool isCorrectQr = false;
   while( !isCorrectQr )
@@ -54,7 +52,7 @@ DynamicJsonDocument QR :: leerQr()
   }
 }
 
-DynamicJsonDocument QR :: desencriptarQr(DynamicJsonDocument encryptedQr)
+const char* QR :: desencriptarQr(String encryptedQr)
 {
   // Declara un objeto DynamicJsonDocument
   DynamicJsonDocument doc(1024);
